@@ -27,7 +27,7 @@ As distractors increase, mean reaction time increases until 16...
 
 ```{r rt-by-distractors}
 recognition %>%
- filter(Emotion == "Happy" | Emotion == "Sad") %>%
+# filter(Emotion == "Happy" | Emotion == "Sad") %>%
   ggplot(mapping = aes(x = Distractors, y = Time, 
                                            color = Emotion)) +
   geom_point() +
@@ -42,9 +42,9 @@ recognition %>%
                                            color = Emotion)) +
   geom_point() +
   geom_smooth(method = lm, se = FALSE) + 
-  facet_wrap(~ Participant)
+  facet_wrap(~ Participant) +
   labs(title = "Reaction Time by Number of Distractors", 
-       subtitle = "All Subjects", y = "Reaction time in Seconds")
+       subtitle = "Per Subject", y = "Reaction time in Seconds")
 ```
 
 ```{r average-happy-vs-sad-rt}
@@ -52,31 +52,34 @@ recognition %>%
   group_by(Emotion) %>%
   summarize(mean_per_distractor = mean(Time))
 ```
-The average RT of Happy was 1.81 seconds while Sad was 1.89 seconds, very very
+The average RT of Happy was 1.65 seconds while Sad was 1.77 seconds, very very
 similar. 
 
-```{r average-happy-vs-sad-rt-by-distraction-level}
-happy <- recognition %>%
-  filter("Emotion") %>%
-##how do get average reaction time for Happy at certain levels vs sad at certain levels?
-  
-```
-
-```{r}
+```{r make-mean-by-emotion-distrator-person}
 mean_time_by_emotion_distractor_person <- recognition %>%
   group_by(Emotion, Distractors, Person) %>%
   summarize(mean = mean(Time))
 ```
 
-```{r}
+```{r plot-mean-by-emotion-distrator-person-by-person}
 mean_time_by_emotion_distractor_person %>%
   ggplot(mapping = aes(x = Distractors, y = mean, 
                                            color = Emotion)) +
   geom_point() +
-  geom_smooth(method = lm, se = FALSE) + 
-  facet_wrap(~ Person)
-
+ # geom_smooth(method = lm, se = FALSE) + 
+  facet_wrap(~ Person) +
   labs(title = "Reaction Time by Number of Distractors", 
        subtitle = "All Subjects", y = "Reaction time in Seconds")
 ```
 
+```{r}
+recognition %>%
+  group_by(Emotion, Distractors) %>%
+  summarize(mean = mean(Time))
+ # pull(mean)
+```
+average difference between happy/sad for each familiar face at each distraction level
+
+Happy = output[1:4]
+Sad = output[8:12]
+Happy - Sad
