@@ -68,3 +68,15 @@ mean_time_by_emotion_distractor_person <- recognition %>%
   summarize(mean = mean(Time))
 ```
 
+```{r}
+mean_time_by_emotion_distractor_person %>%
+  ggplot(mapping = aes(x = Distractors, y = mean, 
+                                           color = Emotion)) +
+  geom_point() +
+  geom_smooth(method = lm, se = FALSE) + 
+  facet_wrap(~ Person)
+
+  labs(title = "Reaction Time by Number of Distractors", 
+       subtitle = "All Subjects", y = "Reaction time in Seconds")
+```
+
