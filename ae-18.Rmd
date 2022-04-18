@@ -27,8 +27,8 @@ As distractors increase, mean reaction time increases until 16...
 
 ```{r rt-by-distractors}
 recognition %>%
-  filter(Emotion == "Happy" | "Sad") %>%
-  ggplot(data = recognition, mapping = aes(x = Distractors, y = Time, 
+ filter(Emotion == "Happy" | Emotion == "Sad") %>%
+  ggplot(mapping = aes(x = Distractors, y = Time, 
                                            color = Emotion)) +
   geom_point() +
   geom_smooth(method = lm, se = FALSE) + 
@@ -60,5 +60,11 @@ happy <- recognition %>%
   filter("Emotion") %>%
 ##how do get average reaction time for Happy at certain levels vs sad at certain levels?
   
+```
+
+```{r}
+mean_time_by_emotion_distractor_person <- recognition %>%
+  group_by(Emotion, Distractors, Person) %>%
+  summarize(mean = mean(Time))
 ```
 
