@@ -27,10 +27,37 @@ As distractors increase, mean reaction time increases until 16...
 
 ```{r rt-by-distractors}
 recognition %>%
+  filter(Emotion == "Happy" | "Sad") %>%
   ggplot(data = recognition, mapping = aes(x = Distractors, y = Time, 
                                            color = Emotion)) +
   geom_point() +
+  geom_smooth(method = lm, se = FALSE) + 
   labs(title = "Reaction Time by Number of Distractors", 
        subtitle = "All Subjects", y = "Reaction time in Seconds")
+```
+
+```{r}
+recognition %>%
+  ggplot(data = recognition, mapping = aes(x = Distractors, y = Time, 
+                                           color = Emotion)) +
+  geom_point() +
+  geom_smooth(method = lm, se = FALSE) + 
+  facet_wrap(~ Participant)
+  labs(title = "Reaction Time by Number of Distractors", 
+       subtitle = "All Subjects", y = "Reaction time in Seconds")
+```
+
+```{r average-happy-vs-sad-rt}
+recognition %>%
+  group_by(Emotion) %>%
+  summarize(mean_per_distractor = mean(Time))
+```
+The average RT of Happy was 1.81 seconds while Sad was 1.89 seconds, very very
+similar. 
+
+```{r average-happy-vs-sad-rt-by-distraction-level}
+happy <- recognition %>%
+  filter("Emotion") %>%
+  mutate("Happy")
 ```
 
