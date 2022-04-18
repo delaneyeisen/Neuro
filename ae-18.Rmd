@@ -58,6 +58,7 @@ similar.
 ```{r average-happy-vs-sad-rt-by-distraction-level}
 happy <- recognition %>%
   filter("Emotion") %>%
-  mutate("Happy")
+##how do get average reaction time for Happy at certain levels vs sad at certain levels?
+  
 ```
 
